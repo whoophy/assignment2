@@ -17,24 +17,28 @@ import (
 )
 
 type JSONSuccessResult struct {
-	Code    int         `json:"code" example:"200"`
-	Message string      `json:"message" example:"Success"`
-	Data    interface{} `json:"data"`
+	Code   int         `json:"code" example:"200"`
+	Status string      `json:"status" example:"Success"`
+	Data   interface{} `json:"data"`
 }
 
-type JSONbadRequest struct {
-	Code    int         `json:"code" example:"400"`
-	Message string      `json:"message" example:"Wrong Parameter"`
-	Data    interface{} `json:"data"`
-}
+// type JSONbadRequest struct {
+// 	Code    int         `json:"code" example:"400"`
+// 	Message string      `json:"message" example:"Wrong Parameter"`
+// 	Data    interface{} `json:"data"`
+// }
 
 func SuccessResponse(w http.ResponseWriter, data interface{}) {
 	json.NewEncoder(w).Encode(JSONSuccessResult{
-		Code:    200,
-		Message: "Success get data",
-		Data:    data,
+		Code:   200,
+		Status: "Success",
+		Data:   data,
 	})
 	return
+}
+
+type ResponseMessage struct {
+	Message string `json:"message" example:"berhasil menambahkan data"`
 }
 
 // getOrders godoc
@@ -43,7 +47,7 @@ func SuccessResponse(w http.ResponseWriter, data interface{}) {
 // @Tags         orders
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  JSONSuccessResult{data=structs.Order,code=int,message=string}
+// @Success      200  {object}  JSONSuccessResult{data=structs.Order,code=int,status=string}
 // @Router       /orders [get]
 func GetOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -62,8 +66,9 @@ func GetOrder(w http.ResponseWriter, r *http.Request) {
 // @Tags         orders
 // @Accept       json
 // @Produce      json
-// @Success      200  GetOrders  structs.Order
+// @Success      200 {object}  JSONSuccessResult{data=ResponseMessage,code=int,status=string}
 // @Param        id   path      int  true  "Order ID"
+// @Param        order body     structs.Order  true  "json data"
 // @Router       /order/{id} [put]
 func UpdateOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
@@ -84,12 +89,9 @@ func UpdateOrder(w http.ResponseWriter, r *http.Request) {
 	order.CostumerName = "Hallo"
 	msg := controllers.UpdateOrder(order, order_id)
 	fmt.Println(msg)
-	var response = struct {
-		Message string
-	}{
-		Message: msg,
-	}
-	json.NewEncoder(w).Encode(response)
+	var response ResponseMessage
+	response.Message = msg
+	SuccessResponse(w, response)
 }
 
 // DeleteOrders godoc
@@ -99,6 +101,7 @@ func UpdateOrder(w http.ResponseWriter, r *http.Request) {
 // @Accept       json
 // @Produce      json
 // @Param        id   path      int  true  "Order ID"
+// @Success      200 {object}  JSONSuccessResult{data=ResponseMessage,code=int,status=string}
 // @Router       /order/{id} [delete]
 func DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
@@ -107,16 +110,13 @@ func DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	res, err := controllers.DeleteOrder(order_id)
+	msg, err := controllers.DeleteOrder(order_id)
 	if err != nil {
 		panic(err)
 	}
-	var response = struct {
-		Message string
-	}{
-		Message: res,
-	}
-	json.NewEncoder(w).Encode(response)
+	var response ResponseMessage
+	response.Message = msg
+	SuccessResponse(w, response)
 }
 
 // getOrders godoc
@@ -125,7 +125,8 @@ func DeleteOrder(w http.ResponseWriter, r *http.Request) {
 // @Tags         orders
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  structs.Order
+// @Param        order body     structs.Order  true  "json data"
+// @Success      200 {object}  JSONSuccessResult{data=ResponseMessage,code=int,status=string}
 // @Router       /orders [post]
 func CreateOrder(w http.ResponseWriter, r *http.Request) {
 	var order structs.Order
@@ -140,12 +141,9 @@ func CreateOrder(w http.ResponseWriter, r *http.Request) {
 	order.CostumerName = "template"
 	msg := controllers.CreateOrder(order)
 	fmt.Println(msg)
-	var response = struct {
-		Message string
-	}{
-		Message: msg,
-	}
-	json.NewEncoder(w).Encode(response)
+	var response ResponseMessage
+	response.Message = msg
+	SuccessResponse(w, response)
 }
 
 // @title Swagger Example API

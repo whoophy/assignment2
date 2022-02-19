@@ -15,8 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "petstore.swagger.io",
-    "basePath": "/v2",
+    "host": "localhost:8080",
     "paths": {
         "/order/{id}": {
             "put": {
@@ -38,13 +37,40 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "json data",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.Order"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "GetOrders"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/main.JSONSuccessResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/main.ResponseMessage"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -70,12 +96,40 @@
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/main.JSONSuccessResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/main.ResponseMessage"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
         "/orders": {
             "get": {
                 "description": "get details of all orders",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -87,7 +141,25 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "GetOrder"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/main.JSONSuccessResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/structs.Order"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -104,11 +176,40 @@
                     "orders"
                 ],
                 "summary": "get details list of all orders",
+                "parameters": [
+                    {
+                        "description": "json data",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/structs.Order"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/structs.Order"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/main.JSONSuccessResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/main.ResponseMessage"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -116,6 +217,29 @@
         }
     },
     "definitions": {
+        "main.JSONSuccessResult": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "data": {},
+                "status": {
+                    "type": "string",
+                    "example": "Success"
+                }
+            }
+        },
+        "main.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "berhasil menambahkan data"
+                }
+            }
+        },
         "structs.Item": {
             "type": "object",
             "properties": {

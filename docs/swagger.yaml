@@ -1,5 +1,20 @@
-basePath: /v2
 definitions:
+  main.JSONSuccessResult:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data: {}
+      status:
+        example: Success
+        type: string
+    type: object
+  main.ResponseMessage:
+    properties:
+      message:
+        example: berhasil menambahkan data
+        type: string
+    type: object
   structs.Item:
     properties:
       description:
@@ -34,7 +49,7 @@ definitions:
         example: 1
         type: integer
     type: object
-host: petstore.swagger.io
+host: localhost:8080
 info:
   contact:
     email: support@swagger.io
@@ -61,7 +76,20 @@ paths:
         type: integer
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.JSONSuccessResult'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/main.ResponseMessage'
+                status:
+                  type: string
+              type: object
       summary: delete selected orders
       tags:
       - orders
@@ -75,30 +103,33 @@ paths:
         name: id
         required: true
         type: integer
+      - description: json data
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/structs.Order'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: GetOrders
+            allOf:
+            - $ref: '#/definitions/main.JSONSuccessResult'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/main.ResponseMessage'
+                status:
+                  type: string
+              type: object
       summary: get details list of all orders
       tags:
       - orders
   /orders:
     get:
-      description: get details of all orders
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: GetOrder
-      summary: get details list of all orders
-      tags:
-      - orders
-    post:
       consumes:
       - application/json
       description: get details of all orders
@@ -108,7 +139,46 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/structs.Order'
+            allOf:
+            - $ref: '#/definitions/main.JSONSuccessResult'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/structs.Order'
+                status:
+                  type: string
+              type: object
+      summary: get details list of all orders
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: get details of all orders
+      parameters:
+      - description: json data
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/structs.Order'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.JSONSuccessResult'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/main.ResponseMessage'
+                status:
+                  type: string
+              type: object
       summary: get details list of all orders
       tags:
       - orders
