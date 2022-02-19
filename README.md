@@ -25,8 +25,6 @@ CONSTRAINT fk_orders FOREIGN KEY(order_id) REFERENCES orders(order_id)
 ## Program
 Semua fungsi CRUD berjalan secara semestinya, test saya lampirkan pada postman
 ## BUG
-- Pada saat parsing data dari json ke struct, salah satu field pada struct tidak terbaca sehingga saya memberikan default yang ditunjukan pada
--> order.CostumerName = "Hallo" //pada fungsi UpdateOrder di main.go
--> order.CostumerName = "template" //pada fungsi CreateOrder di main.go
+- Pada saat parsing data dari json ke struct, salah satu field pada struct tidak terbaca sehingga saya memberikan default yang ditunjukan pada order.CostumerName = "Hallo" pada fungsi UpdateOrder di main.go, dan order.CostumerName = "template" pada fungsi CreateOrder di main.go
 - Swagger baru bisa yang getOrder, namun seluruh test sudah bisa berjalan dengan baik di postman
 
