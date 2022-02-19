@@ -16,12 +16,34 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type JSONSuccessResult struct {
+	Code    int         `json:"code" example:"200"`
+	Message string      `json:"message" example:"Success"`
+	Data    interface{} `json:"data"`
+}
+
+type JSONbadRequest struct {
+	Code    int         `json:"code" example:"400"`
+	Message string      `json:"message" example:"Wrong Parameter"`
+	Data    interface{} `json:"data"`
+}
+
+func SuccessResponse(w http.ResponseWriter, data interface{}) {
+	json.NewEncoder(w).Encode(JSONSuccessResult{
+		Code:    200,
+		Message: "Success get data",
+		Data:    data,
+	})
+	return
+}
+
 // getOrders godoc
 // @Summary      get details list of all orders
 // @Description  get details of all orders
 // @Tags         orders
+// @Accept       json
 // @Produce      json
-// @Success      200  {GetOrder}  structs.Order
+// @Success      200  {object}  JSONSuccessResult{data=structs.Order,code=int,message=string}
 // @Router       /orders [get]
 func GetOrder(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -30,7 +52,8 @@ func GetOrder(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	json.NewEncoder(w).Encode(orders)
+	// json.NewEncoder(w).Encode(orders)
+	SuccessResponse(w, orders)
 }
 
 // getOrders godoc
@@ -137,8 +160,7 @@ func CreateOrder(w http.ResponseWriter, r *http.Request) {
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host petstore.swagger.io
-// @BasePath /v2
+// @host localhost:8080
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/orders", CreateOrder).Methods("POST", "OPTIONS")
