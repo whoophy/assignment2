@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "c7e6efd7-a6b5-4abf-8b4e-721ac27fb9f1",
+		"name": "assigment2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getOrders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"Order_id\": 1,\n        \"Costumer_name\": \"arif\",\n        \"Order_at\": \"2022-02-17T21:16:38.147532+07:00\",\n        \"Items\": [\n            {\n                \"Item_id\": 1,\n                \"Item_code\": \"BBA110\",\n                \"Description\": \"no description\",\n                \"Quantity\": 14,\n                \"Order_id\": 1\n            }\n        ]\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delOrders",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/order/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createOrders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderId\": 1,\n    \"customerName\": \"Tom\",\n    \"orderedAt\": \"2022-02-17T21:16:38.147532+07:00\",\n    \"items\": [\n        {\n            \"itemCode\": \"123\",\n            \"description\": \"IPhone 10X\",\n            \"quantity\": 1\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateOrders",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"costumerName\": \"template\",\n        \"orderAt\": \"0001-01-01T07:07:12+07:07\",\n        \"items\": [\n            {\n                \"itemCode\": \"123\",\n                \"description\": \"Samsung S20\",\n                \"quantity\": 1\n            }\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/order/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

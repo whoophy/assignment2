@@ -1,0 +1,168 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is Orders API",
+        "title": "Swagger Example API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Arif Kurniawan",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "petstore.swagger.io",
+    "basePath": "/v2",
+    "paths": {
+        "/order/{id}": {
+            "put": {
+                "description": "get details of all orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "get details list of all orders",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "GetOrders"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete orders by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "delete selected orders",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/orders": {
+            "get": {
+                "description": "get details of all orders",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "get details list of all orders",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "GetOrder"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "get details of all orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "get details list of all orders",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Order"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "structs.Item": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "A random description"
+                },
+                "itemCode": {
+                    "type": "string",
+                    "example": "AAA321"
+                },
+                "itemId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "orderId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 10
+                }
+            }
+        },
+        "structs.Order": {
+            "type": "object",
+            "properties": {
+                "costumerName": {
+                    "type": "string",
+                    "example": "Arif Kurniawa"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/structs.Item"
+                    }
+                },
+                "orderAt": {
+                    "type": "string",
+                    "example": "2022-02-17T21:16:38.147532+07:00"
+                },
+                "orderId": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        }
+    }
+}
